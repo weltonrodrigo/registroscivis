@@ -37,7 +37,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './api-estadual.v1.yaml#/components/schemas/Identidade'
+              type: object
+              description: Objeto Identidade da API-Estadual
         description: ''
     delete:
       summary: Excluir uma Identidate
@@ -83,7 +84,8 @@ paths:
             schema:
               type: array
               items:
-                $ref: './api-estadual.v1.yaml#/components/schemas/Identidade'
+                type: object
+                description: Objeto Identidade da API-Estadual
         description: ''
 components:
   schemas: {}
