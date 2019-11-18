@@ -11,7 +11,7 @@ servers:
 paths:
   /identidades:
     get:
-      summary: Filtrar identidades
+      summary: Filtrar o índice de identidades
       tags: []
       responses:
         '200':
@@ -35,7 +35,7 @@ paths:
       operationId: '1'
   /identidadesByCampo:
     post:
-      summary: Buscar identidade por campo
+      summary: Buscar identidades por campo
       tags: []
       responses:
         '200':
@@ -76,7 +76,7 @@ paths:
         required: true
         description: Identificador único da Identidade.
     get:
-      summary: Detalha identidade
+      summary: Detalhar uma Identidade
       tags: []
       responses:
         '200':
@@ -84,8 +84,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: Objeto Identidade como descrito na API-Estadual.
+                $ref: './api-estadual.v1.yaml#/components/schemas/Identidade'
       operationId: '3'
       description: Obter os detalhes de uma identidade pelo seu ID único.
   '/identidades/{id}/emissao/{id_emissao}/anexo/{id_anexo}':
@@ -109,7 +108,7 @@ paths:
         required: true
         description: Id do anexo
     get:
-      summary: Anexo pelo ID
+      summary: Obter um Anexo pelo seu ID
       tags: []
       description: Obter um anexo pelo seu identificador conforme obtido pela consulta detalhada.
       security:

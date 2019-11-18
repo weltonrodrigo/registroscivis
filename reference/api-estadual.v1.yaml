@@ -17,7 +17,7 @@ paths:
         required: true
         description: Identificador único da Identidade
     get:
-      summary: Identidade pelo ID
+      summary: Obter uma Identidade pelo ID
       responses:
         '200':
           description: OK
@@ -54,7 +54,7 @@ paths:
         required: true
         description: ID da emissão.
     get:
-      summary: Conteúdo de um anexo
+      summary: Obter o conteúdo de um anexo
       tags: []
       responses:
         '200':

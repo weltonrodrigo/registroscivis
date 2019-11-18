@@ -26,7 +26,7 @@ paths:
           type: string
         description: 'Identificador Único da Identidade, como utilizado pela API-Estadual.'
     post:
-      summary: Incluir Identidade individualmente
+      summary: Incluir uma Identidade
       tags: []
       responses: {}
       description: Endpoint de inclusão individual. O ID utilizado pelo estado deve ser precedido de um código estadual.
@@ -37,11 +37,10 @@ paths:
         content:
           application/json:
             schema:
-              description: Conforme objeto Identidade da API-Estadual.
-              type: object
+              $ref: './api-estadual.v1.yaml#/components/schemas/Identidade'
         description: ''
     delete:
-      summary: ''
+      summary: Excluir uma Identidate
       responses:
         '200':
           description: OK
@@ -49,7 +48,7 @@ paths:
       operationId: '2'
   /Identidades:
     post:
-      summary: Incluir Identidades em lote
+      summary: Incluir várias Identidades
       tags: []
       responses:
         '200':
@@ -72,8 +71,7 @@ paths:
             schema:
               type: array
               items:
-                type: object
-                description: Objeto Identidade conforme API-Estadual.
+                $ref: './api-estadual.v1.yaml#/components/schemas/Identidade'
         description: ''
 components:
   schemas: {}
