@@ -38,7 +38,7 @@ paths:
           application/json:
             schema:
               type: object
-              description: Objeto Identidade da API-Estadual
+              description: Uma Identidade na forma de um objeto Identidade-Sumario
         description: ''
     delete:
       summary: Excluir uma Identidate
@@ -83,12 +83,51 @@ paths:
           application/json:
             schema:
               type: array
+              description: Um Array contendo diversos Identidades como objetos Identidade-Sumario
               items:
-                type: object
-                description: Objeto Identidade da API-Estadual
+                $ref: './api-busca-nacional.v1.yaml#/components/schemas/Identidade-Sumario'
         description: ''
 components:
-  schemas: {}
+  schemas:
+    Identidade-Sumario:
+      title: Sumário da Identidade
+      type: object
+      description: |-
+        Sumário ou versão reduzida da identidade para fins de indexação pelo Índice-NRG.
+
+        ## Pendências
+        - Necessário definir o tamanho do thumbnail
+        - Necessário definir quais dados biográficos (se algum) é obrigatório.
+      properties:
+        id:
+          type: string
+          description: ''
+        dados_biograficos:
+          type: array
+          description: Array de Dados Biográficos como especificado na API-Estadual.
+          items:
+            type: object
+        numero:
+          type: string
+          description: O número que aparece no documento (número do RG)
+        data:
+          type: string
+          format: date
+          description: data de expedição do documento
+        orgao:
+          type: string
+          description: Órgão emissor do documento
+        thumbnail:
+          type: string
+          format: uri
+          description: 'URI da foto pequena (thumbnail). De preferência esta URI deverá estar acessível diretamento pelo usuário final, de forma que algum mecanismo de URI pré-assinada. Ou seja, essa URI deve ser um request GET acessível sem inclusão de headers de autenticação.'
+      required:
+        - id
+        - dados_biograficos
+        - numero
+        - data
+        - orgao
+        - thumbnail
   securitySchemes:
     Chave de Acesso:
       name: XXXXXXXX
