@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: API-Estadual
   version: 1.0.0
-  description: ''
+  description: Api de consulta detalhada de identidades a ser implementada e mantida pelo Estado.
   contact:
     name: Welton Nascimento
     email: welton.nascimento@mj.gov.br
@@ -28,7 +28,8 @@ paths:
         '404':
           description: Não encontrado
       description: Obtém um objeto Identidade pelo seu ID.
-      operationId: ''
+      operationId: '1'
+      tags: []
       security:
         - Chave de Acesso: []
   '/identidades/{id_identidade}/anexos/{id_anexo}':
@@ -55,6 +56,7 @@ paths:
       description: 'Obtém o conteúdo de um anexo pelos ID da identidade e do anexo. O conteúdo pode ser um PDF, uma imagem PNG ou JPEG ou qualquer outro formato.'
       security:
         - Chave de Acesso: []
+      operationId: '2'
 components:
   schemas:
     Anexo:
