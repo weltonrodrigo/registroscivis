@@ -29,10 +29,10 @@ paths:
           description: Não encontrado
       description: Obtém um objeto Identidade pelo seu ID.
       operationId: '1'
-      tags: []
       security:
         - Chave de Acesso: []
-  '/identidades/{id_identidade}/anexos/{id_anexo}':
+      tags: []
+  '/identidades/{id_identidade}/emissao/{id_emissao}/anexos/{id_anexo}':
     parameters:
       - name: id_identidade
         in: path
@@ -47,6 +47,12 @@ paths:
           type: string
           minLength: 1
         description: id do Anexo
+      - schema:
+          type: string
+        name: id_emissao
+        in: path
+        required: true
+        description: ID da emissão.
     get:
       summary: Conteúdo de um anexo
       tags: []

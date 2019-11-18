@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: API-Busca-Nacional
+  version: '1.0'
+  description: 'API de Busca Nacional a ser utilizada pelos Sistemas Estaduais de Consulta ou pelos Sistemas SINESP para encontrar Identidades, obter seus detalhes e anexos.'
+  contact:
+    name: Welton Nascimento
+    email: welton.nascimento@mj.gov.br
+servers:
+  - url: 'https://api-busca.mj.gov.br'
+paths:
+  /identidades:
+    get:
+      summary: Filtrar identidades
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Identidade-Sumario'
+      description: O endpoint que será normalmente usado para filtrar as identidades pelos dados biográficos.
+      security:
+        - Chave de Acesso: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: campo
+          description: Campo utilizado para filtrar o índice
+          required: true
+      operationId: '1'
+  /identidadesByCampo:
+    post:
+      summary: Buscar identidade por campo
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Identidade-Sumario'
+      description: "Um endpoint que poderá ser usado no futuro para pesquisar por campos que não cabem numa query GET. \n\nUm uso futuro, por exemplo, será a busca facial por landmarks ou íris."
+      operationId: '2'
+      security:
+        - Chave de Acesso: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                campo:
+                  type: string
+                  description: nome do campo a ser pesquisado
+                valor:
+                  type: string
+                  description: Valor a ser pesquisado
+              required:
+                - campo
+                - valor
+        description: ''
+    parameters: []
+  '/identidades/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Identificador único da Identidade.
+    get:
+      summary: Detalha identidade
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Objeto Identidade conforme a API-Estadual.
+      operationId: '3'
+      description: Obter os detalhes de uma identidade pelo seu ID único.
+  '/identidades/{id}/emissao/{id_emissao}/anexo/{id_anexo}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Identificador único da Identidade.
+      - schema:
+          type: string
+        name: id_emissao
+        in: path
+        required: true
+        description: Id da emissão
+      - schema:
+          type: string
+        name: id_anexo
+        in: path
+        required: true
+        description: Id do anexo
+    get:
+      summary: Anexo pelo ID
+      tags: []
+      description: Obter um anexo pelo seu identificador conforme obtido pela consulta detalhada.
+      security:
+        - Chave de Acesso: []
+      operationId: '4'
+      responses:
+        '200':
+          description: Retorna o conteúdo do arquivo anexo.
+          headers: {}
+components:
+  schemas:
+    Identidade-Sumario:
+      title: Sumário da Identidade
+      type: object
+      description: 'Uma identidade com os dados biográficos disponíveis, normalmente um sumário dos campos disponíveis na origem estadual.'
+      properties:
+        id:
+          type: string
+          description: ''
+        dados_biograficos:
+          type: array
+          description: Array de dados biográficos
+          items:
+            $ref: '#/components/schemas/Dado-Biografico'
+        numero:
+          type: string
+          description: O número que aparece no documento (número do RG)
+        data:
+          type: string
+          format: date
+          description: data de expedição do documento
+        orgao:
+          type: string
+          description: Órgão emissor do documento
+      required:
+        - id
+        - dados_biograficos
+        - numero
+        - data
+        - orgao
+    Dado-Biografico:
+      title: Dado biográfico
+      type: object
+      description: |-
+        Objeto que contém um dados biográfico do indivíduo.
+
+        Ter um dado biográfico como um objeto à parte dá mais flexibilidade, uma vez que cada estado pode escolher incluir aqui os dados biográficos que possui.
+
+        Como tratam-se de campos string, o cliente pode construir sua interface de modo a mostrar todos os campos sem precisar saber quais são com antecedência.
+
+        No entanto, como alguns campos são mais utilizados, seus nomes são padronizados nesta versão:
+
+        `Nome`, `Mãe`, `Pai`, `Progenitor`, `Data de Nascimento`, `Data de Óbito`, `CPF`, `Naturalidade`, `Nacionalidade`.
+      x-examples:
+        Nome: {}
+      properties:
+        campo:
+          type: string
+          description: tipo de dado que este campo contém
+          example: Naturalidade
+        valor:
+          type: string
+          description: Valor do campo
+          example: Caucaia-CE
+      required:
+        - campo
+        - valor
+  securitySchemes:
+    Chave de Acesso:
+      name: XXXXXXXXXX
+      type: apiKey
+      in: header
+      description: Chave de acesso à API.
