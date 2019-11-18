@@ -9,26 +9,26 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/Identidades/{codigo_estadual}{id}':
+  '/Identidades/{id}':
     parameters:
-      - type: string
-        name: codigo_estadual
-        in: path
-        required: true
-        schema:
-          type: string
-        description: código estadual.
       - type: string
         name: id
         in: path
         required: true
         schema:
           type: string
-        description: 'Identificador Único da Identidade, como utilizado pela API-Estadual.'
+        description: 'Identificador Único da Identidade, composto por um código do estado + o identificador como utilizado pela API-Estadual. {código_estadual}{id}'
     post:
       summary: Incluir uma Identidade
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                description: O Identificador único que foi incluído
       description: Endpoint de inclusão individual. O ID utilizado pelo estado deve ser precedido de um código estadual.
       operationId: '1'
       security:
@@ -46,6 +46,7 @@ paths:
           description: OK
       description: Endpoint de exclusão individual.
       operationId: '2'
+      tags: []
   /Identidades:
     post:
       summary: Incluir várias Identidades
@@ -60,9 +61,20 @@ paths:
                 description: Array contendo os Identificadores Únicos que foram aceitos sem erro.
                 items:
                   type: string
+        '':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Um array contendo todos os identificadores que foram incluídos com sucesso.
+                items:
+                  type: string
       operationId: '3'
       description: |
         Endpoint de inclusão em lotes. O objeto JSON a ser postado deve ter os ID utilizados pelo estado precedidos de um código estadual.
+
+        O Identificador Único da Identidade é composto por um código do estado + o identificador como utilizado pela API-Estadual. {código_estadual}{id}
       security:
         - Chave de Acesso: []
       requestBody:
