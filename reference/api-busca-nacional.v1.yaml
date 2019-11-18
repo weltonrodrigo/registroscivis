@@ -131,9 +131,9 @@ components:
           description: ''
         dados_biograficos:
           type: array
-          description: Array de dados biográficos
+          description: Array de Dados Biográficos como especificado na API-Estadual.
           items:
-            $ref: './api-estadual.v1.yaml#/components/schemas/Dado-Biografico'
+            type: object
         numero:
           type: string
           description: O número que aparece no documento (número do RG)
