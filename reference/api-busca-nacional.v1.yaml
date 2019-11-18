@@ -84,7 +84,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './api-estadual.yaml#/components/schemas/Identidade'
+                type: object
+                description: Objeto Identidade como descrito na API-Estadual.
       operationId: '3'
       description: Obter os detalhes de uma identidade pelo seu ID único.
   '/identidades/{id}/emissao/{id_emissao}/anexo/{id_anexo}':
