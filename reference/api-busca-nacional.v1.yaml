@@ -144,12 +144,17 @@ components:
         orgao:
           type: string
           description: Órgão emissor do documento
+        thumbnail:
+          type: string
+          format: uri
+          description: 'URI da foto pequena (thumbnail). De preferência esta URI deverá estar acessível diretamento pelo usuário final, de forma que algum mecanismo de URI pré-assinada. Ou seja, essa URI deve ser um request GET acessível sem inclusão de headers de autenticação.'
       required:
         - id
         - dados_biograficos
         - numero
         - data
         - orgao
+        - thumbnail
     Dado-Biografico:
       title: Dado biográfico
       type: object
