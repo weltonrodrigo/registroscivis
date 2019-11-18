@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: API-Índice-NRG
+  version: '1.0'
+  description: API para alimentação do Índice Nacional.
+  contact:
+    name: Welton Nascimento
+    email: welton.nascimento@mj.gov.br
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/Identidades/{codigo_estadual}{id}':
+    parameters:
+      - type: string
+        name: codigo_estadual
+        in: path
+        required: true
+        schema:
+          type: string
+        description: código estadual.
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 'Identificador Único da Identidade, como utilizado pela API-Estadual.'
+    post:
+      summary: Incluir Identidade individualmente
+      tags: []
+      responses: {}
+      description: Endpoint de inclusão individual. O ID utilizado pelo estado deve ser precedido de um código estadual.
+      operationId: '1'
+      security:
+        - Chave de Acesso: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Conforme objeto Identidade da API-Estadual.
+              type: object
+        description: ''
+    delete:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      description: Endpoint de exclusão individual.
+      operationId: '2'
+  /Identidades:
+    post:
+      summary: Incluir Identidades em lote
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array contendo os Identificadores Únicos que foram aceitos sem erro.
+                items:
+                  type: string
+      operationId: '3'
+      description: |
+        Endpoint de inclusão em lotes. O objeto JSON a ser postado deve ter os ID utilizados pelo estado precedidos de um código estadual.
+      security:
+        - Chave de Acesso: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                description: Objeto Identidade conforme API-Estadual.
+        description: ''
+components:
+  schemas: {}
+  securitySchemes:
+    Chave de Acesso:
+      name: XXXXXXXX
+      type: apiKey
+      in: header
+      description: Chave de acesso à API.
