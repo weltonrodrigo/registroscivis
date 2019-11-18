@@ -1,0 +1,247 @@
+openapi: 3.0.0
+info:
+  title: API-Estadual
+  version: 1.0.0
+  description: ''
+paths:
+  '/identidades/{id_identidade}':
+    parameters:
+      - schema:
+          type: string
+          minLength: 1
+        name: id_identidade
+        in: path
+        required: true
+        description: Identificador único da Identidade
+    get:
+      summary: Identidade pelo ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Identidade
+                type: object
+                description: Uma Identidade com dados biográficos e anexos.
+                properties:
+                  id:
+                    type: string
+                  anexos:
+                    type: array
+                    items:
+                      type: object
+                      x-examples:
+                        Exemplo de anexo:
+                          id: 245829sdkfjas92349d
+                          tipo: certidao_nascimento
+                          formato: PNG
+                          uri_alternativa: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+                          nome_do_arquivo: certidao.png
+                          informacao: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+                      description: Este objeto contém um anexo para o registro do indivíduo.
+                      properties:
+                        id:
+                          type: string
+                          example: 245829sdkfjas92349d
+                        tipo:
+                          type: string
+                          description: "O tipo de arquivo (formato) é definido pela extensão do nome do arquivo.\n\nFormatos suportados:\n- IMAGEM\n    PNG, JPEG, GIF e outros formatos de imagem.\n- DOCUMENTO\n    PDF.\n- BINÁRIO\n    WSQ, entre outros.    \n\nNa versão 1, a lista de tipos de anexos suportados é:\n- `generico_imagem`. IMAGEM. Quando o SIS-Origem não possuir informação sobre o conteúdo de uma imagem no registro do indivíduo.\n- `foto_documento`. IMAGEM. Foto principal do RG.\n- `foto_miniatura`. IMAGEM. Miniatura fornecida para o Índice-NRG.\n- `fotos_individuo`. IMAGEM. Fotos do indivíduo.\n- `fotos_marcas`. IMAGEM. Marcas identificadoras, como marcas de nascença, cicatrizes ou tatuagens.\n- `generico_documento`. IMAGEM ou DOCUMENTO. Quando o SIS-Origem não possuir informação sobre o conteúdo do documento.\n- `certidao_nascimento`. IMAGEM ou DOCUMENTO. Certidão de nascimento.\n- `certidao_obito`. IMAGEM ou DOCUMENTO. Certidão de óbito.\n- `prontuario`. IMAGEM ou DOCUMENTO. Prontuário do indivíduo.\n- `assinatura`. IMAGEM ou BINÁRIO. Assinatura do indivíduo em formato de imagem, arquivo vetorial ou outro formato binário. \n- `ficha_dactiloscopica`. IMAGEM. Ficha dactiloscópica (digitais) do indivíduo. Deve conter todos os 10 dedos numa só imagem.\n\nO ideal é que o SIS-APIRG utilize o mínimo possível os tipos genéricos, de forma a melhorar a experiência do usuário do SIS-Cliente. Além de permitir no futuro tratamentos automatizados da informação.\n\nDeve ser criado um mecanismo de governança que permita a extensão dessa lista e sua inclusão em versões futuras.\n\nJá se vislumbra a criação de tipos para formatos binários de biometria, como latentes decadactilar, latentes palmar, iris, facial e outras."
+                          enum:
+                            - generico_imagem
+                            - foto_documento
+                            - foto_miniatura
+                            - fotos_individuo
+                            - fotos_marcas
+                            - generico_documento
+                            - certidao_nascimento
+                            - certidao_obito
+                            - prontuario
+                            - assinatura
+                            - ficha_dactiloscopica
+                        formato:
+                          type: string
+                          example: PDF
+                          description: O formato de arquivo do anexo.
+                        uri_alternativa:
+                          type: string
+                          description: Uma URI alternativa para obter o anexo. Útil quando os anexos já se encontram hospedados em algum lugar para outros fins. A maneira padrão de obter o conteúdo do anexo é pelo seu ID.
+                          format: uri
+                          example: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+                        informacao:
+                          type: string
+                          example: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+                        nome_do_arquivo:
+                          type: string
+                          description: Pode ser usado quando essa informação existir no sistema de origem. O SIS-Cliente pode resolver mostrar essa informação para melhorar a experiência de usuário quando um tipo genérico  é utilizado.
+                          example: tatuagem_costas.jpeg
+                      required:
+                        - id
+                        - tipo
+                        - formato
+      description: Obtém um objeto Identidade pelo seu ID.
+      operationId: ''
+      security:
+        - Chave de Acesso: []
+  '/identidades/{id_identidade}/anexos/{id_anexo}':
+    parameters:
+      - name: id_identidade
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identificador único da Identidade
+      - name: id_anexo
+        in: path
+        required: true
+        schema:
+          type: string
+          minLength: 1
+        description: id do Anexo
+    get:
+      summary: Conteúdo de um anexo
+      tags: []
+      responses:
+        '200':
+          description: O conteúdo do arquivo anexado ao registro.
+      description: 'Obtém o conteúdo de um anexo pelos ID da identidade e do anexo. O conteúdo pode ser um PDF, uma imagem PNG ou JPEG ou qualquer outro formato.'
+      security:
+        - Chave de Acesso: []
+components:
+  schemas:
+    Tipo:
+      type: string
+      description: "O tipo de arquivo (formato) é definido pela extensão do nome do arquivo.\n\nFormatos suportados:\n- IMAGEM\n    PNG, JPEG, GIF e outros formatos de imagem.\n- DOCUMENTO\n    PDF.\n- BINÁRIO\n    WSQ, entre outros.    \n\nNa versão 1, a lista de tipos de anexos suportados é:\n- `generico_imagem`. IMAGEM. Quando o SIS-Origem não possuir informação sobre o conteúdo de uma imagem no registro do indivíduo.\n- `foto_documento`. IMAGEM. Foto principal do RG.\n- `foto_miniatura`. IMAGEM. Miniatura fornecida para o Índice-NRG.\n- `fotos_individuo`. IMAGEM. Fotos do indivíduo.\n- `fotos_marcas`. IMAGEM. Marcas identificadoras, como marcas de nascença, cicatrizes ou tatuagens.\n- `generico_documento`. IMAGEM ou DOCUMENTO. Quando o SIS-Origem não possuir informação sobre o conteúdo do documento.\n- `certidao_nascimento`. IMAGEM ou DOCUMENTO. Certidão de nascimento.\n- `certidao_obito`. IMAGEM ou DOCUMENTO. Certidão de óbito.\n- `prontuario`. IMAGEM ou DOCUMENTO. Prontuário do indivíduo.\n- `assinatura`. IMAGEM ou BINÁRIO. Assinatura do indivíduo em formato de imagem, arquivo vetorial ou outro formato binário. \n- `ficha_dactiloscopica`. IMAGEM. Ficha dactiloscópica (digitais) do indivíduo. Deve conter todos os 10 dedos numa só imagem.\n\nO ideal é que o SIS-APIRG utilize o mínimo possível os tipos genéricos, de forma a melhorar a experiência do usuário do SIS-Cliente. Além de permitir no futuro tratamentos automatizados da informação.\n\nDeve ser criado um mecanismo de governança que permita a extensão dessa lista e sua inclusão em versões futuras.\n\nJá se vislumbra a criação de tipos para formatos binários de biometria, como latentes decadactilar, latentes palmar, iris, facial e outras."
+      enum:
+        - generico_imagem
+        - foto_documento
+        - foto_miniatura
+        - fotos_individuo
+        - fotos_marcas
+        - generico_documento
+        - certidao_nascimento
+        - certidao_obito
+        - prontuario
+        - assinatura
+        - ficha_dactiloscopica
+    Formato:
+      type: string
+      example: PDF
+      description: O formato de arquivo do anexo.
+    Anexo:
+      type: object
+      x-examples:
+        Exemplo de anexo:
+          id: 245829sdkfjas92349d
+          tipo: certidao_nascimento
+          formato: PNG
+          uri_alternativa: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+          nome_do_arquivo: certidao.png
+          informacao: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+      description: Este objeto contém um anexo para o registro do indivíduo.
+      properties:
+        id:
+          type: string
+          example: 245829sdkfjas92349d
+        tipo:
+          type: string
+          description: "O tipo de arquivo (formato) é definido pela extensão do nome do arquivo.\n\nFormatos suportados:\n- IMAGEM\n    PNG, JPEG, GIF e outros formatos de imagem.\n- DOCUMENTO\n    PDF.\n- BINÁRIO\n    WSQ, entre outros.    \n\nNa versão 1, a lista de tipos de anexos suportados é:\n- `generico_imagem`. IMAGEM. Quando o SIS-Origem não possuir informação sobre o conteúdo de uma imagem no registro do indivíduo.\n- `foto_documento`. IMAGEM. Foto principal do RG.\n- `foto_miniatura`. IMAGEM. Miniatura fornecida para o Índice-NRG.\n- `fotos_individuo`. IMAGEM. Fotos do indivíduo.\n- `fotos_marcas`. IMAGEM. Marcas identificadoras, como marcas de nascença, cicatrizes ou tatuagens.\n- `generico_documento`. IMAGEM ou DOCUMENTO. Quando o SIS-Origem não possuir informação sobre o conteúdo do documento.\n- `certidao_nascimento`. IMAGEM ou DOCUMENTO. Certidão de nascimento.\n- `certidao_obito`. IMAGEM ou DOCUMENTO. Certidão de óbito.\n- `prontuario`. IMAGEM ou DOCUMENTO. Prontuário do indivíduo.\n- `assinatura`. IMAGEM ou BINÁRIO. Assinatura do indivíduo em formato de imagem, arquivo vetorial ou outro formato binário. \n- `ficha_dactiloscopica`. IMAGEM. Ficha dactiloscópica (digitais) do indivíduo. Deve conter todos os 10 dedos numa só imagem.\n\nO ideal é que o SIS-APIRG utilize o mínimo possível os tipos genéricos, de forma a melhorar a experiência do usuário do SIS-Cliente. Além de permitir no futuro tratamentos automatizados da informação.\n\nDeve ser criado um mecanismo de governança que permita a extensão dessa lista e sua inclusão em versões futuras.\n\nJá se vislumbra a criação de tipos para formatos binários de biometria, como latentes decadactilar, latentes palmar, iris, facial e outras."
+          enum:
+            - generico_imagem
+            - foto_documento
+            - foto_miniatura
+            - fotos_individuo
+            - fotos_marcas
+            - generico_documento
+            - certidao_nascimento
+            - certidao_obito
+            - prontuario
+            - assinatura
+            - ficha_dactiloscopica
+        formato:
+          type: string
+          example: PDF
+          description: O formato de arquivo do anexo.
+        uri_alternativa:
+          type: string
+          description: Uma URI alternativa para obter o anexo. Útil quando os anexos já se encontram hospedados em algum lugar para outros fins. A maneira padrão de obter o conteúdo do anexo é pelo seu ID.
+          format: uri
+          example: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+        informacao:
+          type: string
+          example: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+        nome_do_arquivo:
+          type: string
+          description: Pode ser usado quando essa informação existir no sistema de origem. O SIS-Cliente pode resolver mostrar essa informação para melhorar a experiência de usuário quando um tipo genérico  é utilizado.
+          example: tatuagem_costas.jpeg
+      required:
+        - id
+        - tipo
+        - formato
+    Identidade:
+      title: Identidade
+      type: object
+      description: Uma Identidade com dados biográficos e anexos.
+      properties:
+        id:
+          type: string
+        anexos:
+          type: array
+          items:
+            type: object
+            x-examples:
+              Exemplo de anexo:
+                id: 245829sdkfjas92349d
+                tipo: certidao_nascimento
+                formato: PNG
+                uri_alternativa: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+                nome_do_arquivo: certidao.png
+                informacao: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+            description: Este objeto contém um anexo para o registro do indivíduo.
+            properties:
+              id:
+                type: string
+                example: 245829sdkfjas92349d
+              tipo:
+                type: string
+                description: "O tipo de arquivo (formato) é definido pela extensão do nome do arquivo.\n\nFormatos suportados:\n- IMAGEM\n    PNG, JPEG, GIF e outros formatos de imagem.\n- DOCUMENTO\n    PDF.\n- BINÁRIO\n    WSQ, entre outros.    \n\nNa versão 1, a lista de tipos de anexos suportados é:\n- `generico_imagem`. IMAGEM. Quando o SIS-Origem não possuir informação sobre o conteúdo de uma imagem no registro do indivíduo.\n- `foto_documento`. IMAGEM. Foto principal do RG.\n- `foto_miniatura`. IMAGEM. Miniatura fornecida para o Índice-NRG.\n- `fotos_individuo`. IMAGEM. Fotos do indivíduo.\n- `fotos_marcas`. IMAGEM. Marcas identificadoras, como marcas de nascença, cicatrizes ou tatuagens.\n- `generico_documento`. IMAGEM ou DOCUMENTO. Quando o SIS-Origem não possuir informação sobre o conteúdo do documento.\n- `certidao_nascimento`. IMAGEM ou DOCUMENTO. Certidão de nascimento.\n- `certidao_obito`. IMAGEM ou DOCUMENTO. Certidão de óbito.\n- `prontuario`. IMAGEM ou DOCUMENTO. Prontuário do indivíduo.\n- `assinatura`. IMAGEM ou BINÁRIO. Assinatura do indivíduo em formato de imagem, arquivo vetorial ou outro formato binário. \n- `ficha_dactiloscopica`. IMAGEM. Ficha dactiloscópica (digitais) do indivíduo. Deve conter todos os 10 dedos numa só imagem.\n\nO ideal é que o SIS-APIRG utilize o mínimo possível os tipos genéricos, de forma a melhorar a experiência do usuário do SIS-Cliente. Além de permitir no futuro tratamentos automatizados da informação.\n\nDeve ser criado um mecanismo de governança que permita a extensão dessa lista e sua inclusão em versões futuras.\n\nJá se vislumbra a criação de tipos para formatos binários de biometria, como latentes decadactilar, latentes palmar, iris, facial e outras."
+                enum:
+                  - generico_imagem
+                  - foto_documento
+                  - foto_miniatura
+                  - fotos_individuo
+                  - fotos_marcas
+                  - generico_documento
+                  - certidao_nascimento
+                  - certidao_obito
+                  - prontuario
+                  - assinatura
+                  - ficha_dactiloscopica
+              formato:
+                type: string
+                example: PDF
+                description: O formato de arquivo do anexo.
+              uri_alternativa:
+                type: string
+                description: Uma URI alternativa para obter o anexo. Útil quando os anexos já se encontram hospedados em algum lugar para outros fins. A maneira padrão de obter o conteúdo do anexo é pelo seu ID.
+                format: uri
+                example: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+              informacao:
+                type: string
+                example: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+              nome_do_arquivo:
+                type: string
+                description: Pode ser usado quando essa informação existir no sistema de origem. O SIS-Cliente pode resolver mostrar essa informação para melhorar a experiência de usuário quando um tipo genérico  é utilizado.
+                example: tatuagem_costas.jpeg
+            required:
+              - id
+              - tipo
+              - formato
+  securitySchemes:
+    Chave de Acesso:
+      name: XXXXXXXXX
+      type: apiKey
+      in: header
+      description: Chave de segurança para acesso à API-Estadual
+servers:
+  - url: 'https://api-estadual.df.gov.br'
