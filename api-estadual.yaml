@@ -3,6 +3,9 @@ info:
   title: API-Estadual
   version: 1.0.0
   description: ''
+  contact:
+    name: Welton Nascimento
+    email: welton.nascimento@mj.gov.br
 paths:
   '/identidades/{id_identidade}':
     parameters:
