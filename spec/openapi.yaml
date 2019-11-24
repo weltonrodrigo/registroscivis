@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: API-Estadual
+  version: 1.0.0
+  description: >-
+    Api de consulta detalhada de identidades a ser implementada e mantida pelo
+    Estado.
+  contact:
+    name: Welton Nascimento
+    email: welton.nascimento@mj.gov.br
+servers:
+  - url: 'https://api-estadual.df.gov.br'

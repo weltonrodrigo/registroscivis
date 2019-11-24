@@ -1,0 +1,32 @@
+parameters:
+  - name: id_identidade
+    in: path
+    required: true
+    schema:
+      type: string
+    description: Identificador único da Identidade
+  - name: id_anexo
+    in: path
+    required: true
+    schema:
+      type: string
+      minLength: 1
+    description: id do Anexo
+  - schema:
+      type: string
+    name: id_emissao
+    in: path
+    required: true
+    description: ID da emissão.
+get:
+  summary: Obter o conteúdo de um anexo
+  tags: []
+  responses:
+    '200':
+      description: O conteúdo do arquivo anexado ao registro.
+  description: >-
+    Obtém o conteúdo de um anexo pelos ID da identidade e do anexo. O conteúdo
+    pode ser um PDF, uma imagem PNG ou JPEG ou qualquer outro formato.
+  security:
+    - Chave de Acesso: []
+  operationId: '2'

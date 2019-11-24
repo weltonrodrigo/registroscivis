@@ -1,0 +1,129 @@
+type: object
+x-examples:
+  certidão de nascimento:
+    id: 245829sdkfjas92349d
+    tipo: certidao_nascimento
+    formato: PNG
+    uri_alternativa: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+    nome_do_arquivo: certidao.png
+    informacao: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+description: >-
+  Este objeto contém um anexo para o registro do indivíduo.
+
+
+  Os campos podem crescer em futuras versões. Um cliente desta versão deve
+  ignorar campos que desconhece.
+
+
+  O tipo de arquivo (formato) é definido pela extensão do nome do arquivo.
+
+
+  Formatos suportados:
+
+  - **IMAGEM**: PNG, JPEG, GIF e outros formatos de imagem.
+
+  - **DOCUMENTO**: PDF.
+
+  - **BINÁRIO**: WSQ, entre outros.    
+
+
+  Na versão 1, a lista de tipos de anexos suportados é:
+
+  - `generico_imagem`. IMAGEM. Quando o SIS-Origem não possuir informação sobre
+  o conteúdo de uma imagem no registro do indivíduo.
+
+  - `foto_documento`. IMAGEM. Foto principal do RG.
+
+  - `foto_miniatura`. IMAGEM. Miniatura fornecida para o Índice-NRG.
+
+  - `fotos_individuo`. IMAGEM. Fotos do indivíduo.
+
+  - `fotos_marcas`. IMAGEM. Marcas identificadoras, como marcas de nascença,
+  cicatrizes ou tatuagens.
+
+  - `generico_documento`. IMAGEM ou DOCUMENTO. Quando o SIS-Origem não possuir
+  informação sobre o conteúdo do documento.
+
+  - `certidao_nascimento`. IMAGEM ou DOCUMENTO. Certidão de nascimento.
+
+  - `certidao_obito`. IMAGEM ou DOCUMENTO. Certidão de óbito.
+
+  - `prontuario`. IMAGEM ou DOCUMENTO. Prontuário do indivíduo.
+
+  - `assinatura`. IMAGEM ou BINÁRIO. Assinatura do indivíduo em formato de
+  imagem, arquivo vetorial ou outro formato binário. 
+
+  - `ficha_dactiloscopica`. IMAGEM. Ficha dactiloscópica (digitais) do
+  indivíduo. Deve conter todos os 10 dedos numa só imagem.
+
+
+  O ideal é que o SIS-APIRG utilize o mínimo possível os tipos genéricos, de
+  forma a melhorar a experiência do usuário do SIS-Cliente. Além de permitir no
+  futuro tratamentos automatizados da informação.
+
+
+  Deve ser criado um mecanismo de governança que permita a extensão dessa lista
+  e sua inclusão em versões futuras.
+
+
+  Já se vislumbra a criação de tipos para formatos binários de biometria, como
+  latentes decadactilar, latentes palmar, iris, facial e outras.
+
+
+  # Pendências
+
+  - Quais os tipos de anexo que já seriam úteis neste momento?
+properties:
+  id:
+    type: string
+    example: 245829sdkfjas92349d
+  formato:
+    type: string
+    example: PDF
+    description: O formato de arquivo do anexo.
+  uri_alternativa:
+    type: string
+    description: >-
+      Uma URI alternativa para obter o anexo. Útil quando os anexos já se
+      encontram hospedados em algum lugar para outros fins. A maneira padrão de
+      obter o conteúdo do anexo é pelo seu ID.
+    format: uri
+    example: 'https://servidor.uf.gov.br/anexos/245829sdkfjas92349d'
+  informacao:
+    type: string
+    example: Escaneado em 28/02/2017 por Antônio Maria matrícula 1546789.
+    description: >-
+      Pode ser utilizado pelo SIS-APIRG quando houver informações complementares
+      disponíveis que desejar disponibilizar, como observações, anotações ou
+      comentários disponíveis no SIS-Origem.
+
+
+      Não utilizar este campo para metadadados do arquivo (data da emissão,
+      validade, emissor) para permitir que uma versão futura da API-Estadual
+      lide com metadados de maneira estruturada.
+  nome_do_arquivo:
+    type: string
+    description: >-
+      Pode ser usado quando essa informação existir no sistema de origem. O
+      SIS-Cliente pode resolver mostrar essa informação para melhorar a
+      experiência de usuário quando um tipo genérico  é utilizado.
+    example: tatuagem_costas.jpeg
+  tipo:
+    type: string
+    enum:
+      - generico_imagem
+      - foto_documento
+      - foto_miniatura
+      - fotos_individuo
+      - fotos_marcas
+      - generico_documento
+      - certidao_nascimento
+      - certidao_obito
+      - prontuario
+      - assinatura
+      - ficha_dactiloscopica
+    description: O tipo do anexo
+required:
+  - id
+  - formato
+  - tipo

@@ -1,0 +1,24 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 1
+    name: id_identidade
+    in: path
+    required: true
+    description: Identificador único da Identidade
+get:
+  summary: Obter uma Identidade pelo ID
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Identidade'
+    '404':
+      description: Não encontrado
+  description: Obtém um objeto Identidade pelo seu ID.
+  operationId: '1'
+  security:
+    - Chave de Acesso: []
+  tags: []

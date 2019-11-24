@@ -1,0 +1,8 @@
+specFileName: reference/api-estadual.v1.yaml
+apiTitle: API Estadual de RG
+splitSpec: true
+codeSamples: false
+swaggerUI: true
+travis: true
+repo: weltonrodrigo/registroscivis
+oasVersion: 3.0.0

@@ -1,0 +1,4 @@
+name: XXXXXXXXX
+type: apiKey
+in: header
+description: Chave de segurança para acesso à API-Estadual

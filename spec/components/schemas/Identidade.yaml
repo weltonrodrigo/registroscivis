@@ -1,0 +1,22 @@
+title: Identidade
+type: object
+description: >-
+  Uma Identidade com dados biográficos e anexos.
+
+
+  # Pendências
+
+  - Necessário definir se a API precisa lidar com várias emissões de uma mesma
+  identidade. Caso positivo, será necessário criar um array emissão que conterá
+  os dados biográficos e informações da expedição.
+properties:
+  id:
+    type: string
+  emissoes:
+    type: array
+    description: Um array contendo todas as emissões (vias) desta identidade.
+    items:
+      $ref: '#/components/schemas/Emissao'
+required:
+  - id
+  - emissoes

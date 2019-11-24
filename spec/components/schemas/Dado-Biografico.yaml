@@ -1,0 +1,39 @@
+title: Dado biográfico
+type: object
+description: >-
+  Objeto que contém um dados biográfico do indivíduo.
+
+
+  Ter um dado biográfico como um objeto à parte dá mais flexibilidade, uma vez
+  que cada estado pode escolher incluir aqui os dados biográficos que possui.
+
+
+  Como tratam-se de campos string, o cliente pode construir sua interface de
+  modo a mostrar todos os campos sem precisar saber quais são com antecedência.
+
+
+  No entanto, como alguns campos são mais utilizados, seus nomes são
+  padronizados nesta versão:
+
+
+  `Nome`, `Mãe`, `Pai`, `Progenitor`, `Data de Nascimento`, `Data de Óbito`,
+  `CPF`, `Naturalidade`, `Nacionalidade`.
+
+
+
+  # Pendências
+
+  - Quais os campos de dado biográfico que normalmente são utilizados.
+x-examples:
+  Nome: {}
+properties:
+  campo:
+    type: string
+    description: tipo de dado que este campo contém
+    example: Naturalidade
+  valor:
+    type: string
+    description: Valor do campo
+    example: Caucaia-CE
+required:
+  - campo

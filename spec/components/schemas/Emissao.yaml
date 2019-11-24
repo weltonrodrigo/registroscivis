@@ -1,0 +1,46 @@
+title: Emissão
+type: object
+description: >-
+  Uma emissão de uma via de uma Identidade.
+
+
+  Nos estados que geram um novo número em caso de segunda via, cada emissão é
+  uma Identidade nova.
+
+
+  Repita os dados biográficos da última emissão atualizando os apenas campos que
+  foram alteradados, incluídos ou deletados.
+properties:
+  id:
+    type: string
+    description: ''
+  dados_biograficos:
+    type: array
+    description: Array de dados biográficos
+    items:
+      $ref: '#/components/schemas/Dado-Biografico'
+  numero:
+    type: string
+    description: O número que aparece no documento (número do RG)
+  data:
+    type: string
+    format: date
+    description: data de expedição do documento
+  orgao:
+    type: string
+    description: Órgão emissor do documento
+  anexos:
+    type: array
+    description: >-
+      Anexos desta emissão. De preferência não apresentar anexos duplicados
+      entre emissões. Mas se forem arquivos diferentes, por exemplo, duas fotos
+      da mesma certidão de nascimento tomadas em dois momentos diferentes (uma
+      em cada emissão, é interessante ter esse documento separado).
+    items:
+      $ref: '#/components/schemas/Anexo'
+required:
+  - id
+  - dados_biograficos
+  - numero
+  - data
+  - orgao
